@@ -17,12 +17,25 @@ export default function Login() {
     dispatch(loginUser(userData));
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+  useEffect(() => {
+    if (!isError) {
+      navigate("/");
+    }
+  }, [isError]);
 
-      <div>
-        <label htmlFor="username">Username</label>
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center my-40 gap-5 bg-slate-200 w-2/3 mx-auto rounded-lg"
+    >
+      <h2 className="text-2xl text-center font-medium border-b-2 bg-slate-400 border-b-slate-400 w-full p-1">
+        Login
+      </h2>
+
+      <div className="flex flex-row gap-5">
+        <label htmlFor="username" className="text-lg font-medium">
+          Username:
+        </label>
         <input
           type="text"
           name="username"
@@ -30,11 +43,14 @@ export default function Login() {
           onChange={(e) =>
             setUserData({ ...userData, username: e.target.value })
           }
+          className="px-3"
         />
       </div>
 
-      <div>
-        <label htmlFor="password">Password</label>
+      <div className="flex flex-row gap-7">
+        <label htmlFor="password" className="text-lg font-medium">
+          Password:
+        </label>
         <input
           type="password"
           name="password"
@@ -42,13 +58,22 @@ export default function Login() {
           onChange={(e) =>
             setUserData({ ...userData, password: e.target.value })
           }
+          className="px-3"
         />
       </div>
 
-      <button type="submit">Login</button>
+      <button
+        type="submit"
+        className="bg-zinc-400 p-1 text-lg font-semibold w-1/3 rounded-md"
+      >
+        Login
+      </button>
 
-      <p>
-        <Link to="/register">Register</Link>
+      <p className="text-md font-medium pb-5">
+        Dont have an account?{" "}
+        <Link to="/register" className="text-blue-600">
+          Register
+        </Link>
       </p>
     </form>
   );
