@@ -6,12 +6,15 @@ import Home from "./components/blog/Home";
 import { useSelector } from "react-redux";
 import Create from "./components/blog/Create";
 import Header from "./include/Header";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const { user } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.blog);
   return (
     <Router>
-      <header>{user && <Header />}</header>
+      <header>{user && !isLoading && <Header />}</header>
       <main className="container">
         <Routes>
           <Route path="/" element={<PrivateRoutes component={Home} />} />
@@ -23,6 +26,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       </main>
+
+      <ToastContainer autoClose={true} />
     </Router>
   );
 }

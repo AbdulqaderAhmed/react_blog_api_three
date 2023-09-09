@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../features/auth/authSlice";
+import { ClimbingBoxLoader } from "react-spinners";
 
 export default function Register() {
-  const { isError } = useSelector((state) => state.auth);
+  const { user, isLoading, isError } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -19,10 +20,24 @@ export default function Register() {
   };
 
   useEffect(() => {
-    if (!isError) {
+    if (user && !isError) {
       navigate("/login");
     }
-  }, [isError]);
+  }, [isError, user, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClimbingBoxLoader
+          color="grey"
+          loading={isLoading}
+          aria-label="Loading Spinner"
+          size={20}
+          data-testid="loader"
+        />
+      </div>
+    );
+  }
 
   return (
     <form
